@@ -1,9 +1,11 @@
 const path = require('path');
 const outputPath = path.resolve(__dirname, 'dist')
 const { VueLoaderPlugin } = require('vue-loader');
-console.log(outputPath);
+const MODE = 'development'
+const enabledSourceMap = MODE === 'development'
 
 module.exports = {
+  mode: MODE,
   entry: './src/index.js',
   output: {
     path: outputPath,
@@ -14,6 +16,27 @@ module.exports = {
       {
         test: /\.vue$/,
         loader: 'vue-loader',
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          'vue-style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              //cssでのURLの取り込みを禁止する
+              url: false,
+              // sourceMapをdevの時のみ有効化
+              sourceMap: enabledSourceMap
+            }
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: enabledSourceMap
+            }
+          }
+        ]
       }
     ]
   },
@@ -23,9 +46,11 @@ module.exports = {
       'vue$': 'vue/dist/vue.esm.js'
     }
   },
-  plugins: [new VueLoaderPlugin()],
+  plugins: [
+    new VueLoaderPlugin()
+  ],
   devServer: {
-    contentBase: path.join(__dirname, 'dist'),
+    contentBase: outputPath,
     port: 8081,
     open: true
   }
