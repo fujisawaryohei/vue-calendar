@@ -16,6 +16,9 @@ module.exports = {
       {
         test: /\.vue$/,
         loader: 'vue-loader',
+        options: {
+          sourceMap: enabledSourceMap
+        }
       },
       {
         test: /\.scss$/,
@@ -51,7 +54,6 @@ module.exports = {
   ],
   devServer: {
     contentBase: outputPath,
-    port: 8081,
-    open: true
+    port: 8081  
   }
 }
