@@ -1,7 +1,11 @@
 <template>
   <div class="calendar">
     <div class="calendar-header">
-      <p>May 2020</p>
+      <p>{{ this.month }}月 {{ this.year }}年</p>
+      <button @click="reduceMonth()" class="calendar-left-btn">
+        前へ
+      </button>
+      <button @click="addMonth()" class="calendar-right-btn">後へ</button>
     </div>
     <table class="calendar-main">
       <thead class='calendar-head-row'>
@@ -132,9 +136,34 @@ export default {
     },
     tableLine6: function(){
       return this.calendar.slice(35, 42)
+    },
+    checkedMonth: function(){
+      
+    },
+    addMonth: function(){
+      const monthArr = [1,2,3,4,5,6,7,8,9,10,11,12]
+      if(monthArr[this.month-1] === 12){
+        this.month = monthArr[0]
+        this.year += 1
+      } else {
+        this.month = monthArr[this.month-1] + 1
+      }
+    },
+    reduceMonth: function(){
+      const monthArr = [1,2,3,4,5,6,7,8,9,10,11,12]
+      if(monthArr[this.month-1] === 1){
+        this.month = monthArr[11]
+        this.year -= 1
+      } else {
+        this.month = monthArr[this.month-1] - 1
+      }
     }
   },
-  watch: {}
+  watch: {
+    month: function(){
+      this.createCalendar()
+    }
+  }
 }
 </script>
 <style lang='scss' scope>
@@ -153,6 +182,20 @@ export default {
   .calendar-header p {
     text-align: center;
     padding-top: 10%;
+  }
+
+  .calendar-left-btn {
+    display: block;
+    float: left;
+    width: 10%;
+    height: 10%;
+  }
+
+  .calendar-right-btn {
+    display: block;
+    float: right;
+    width: 10%;
+    height: 10%;
   }
 
   .calendar-main {
