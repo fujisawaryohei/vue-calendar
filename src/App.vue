@@ -27,7 +27,7 @@ export default {
     font-family: 'Courier New', Courier, monospace;
     font-size: 1.7rem;
   }
-  tr {
+  td {
     vertical-align: middle;
   }
 </style>
