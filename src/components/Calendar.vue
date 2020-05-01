@@ -17,39 +17,39 @@
       </thead>
       <tbody class='calendar-body'>
         <tr align='center'>
-          <td v-for="day in tableLine1()" 
-              v-bind:key="day">
-              {{ day }}
+          <td v-for="(item, index) in tableLine1()" 
+              v-bind:key="index">
+            {{ item }}
           </td>
         </tr>
         <tr align='center'>
-          <td v-for="day in tableLine2()" 
-              v-bind:key="day">
-              {{ day }}
+           <td v-for="(item, index) in tableLine2()" 
+              v-bind:key="index">
+            {{ item }}
           </td>
         </tr>
         <tr align='center'>
-          <td v-for="day in tableLine3()" 
-              v-bind:key="day">
-              {{ day }}
+           <td v-for="(item, index) in tableLine3()" 
+              v-bind:key="index">
+            {{ item }}
           </td>
         </tr>
         <tr align='center'>
-          <td v-for="day in tableLine4()" 
-              v-bind:key="day">
-              {{ day }}
+           <td v-for="(item, index) in tableLine4()" 
+              v-bind:key="index">
+            {{ item }}
           </td>
         </tr>
         <tr align='center'>
-          <td v-for="day in tableLine5()" 
-              v-bind:key="day">
-              {{ day }}
+           <td v-for="(item, index) in tableLine5()" 
+              v-bind:key="index">
+            {{ item }}
           </td>
         </tr>
         <tr align='center'>
-          <td v-for="day in tableLine6()" 
-              v-bind:key="day">
-              {{ day }}
+           <td v-for="(item, index) in tableLine6()" 
+              v-bind:key="index">
+            {{ item }}
           </td>
         </tr>
       </tbody>
@@ -60,90 +60,81 @@
 export default {
   data(){
     return {
-      selectedYear: null,
-      selectedmonth: null,
-      selectedDate: null,
-      now: new Date(2020, 5, 0),
-      dates: null
+      year: 0,
+      month: 0,
+      calendar: null
     }
   },
   created(){
-    const currentDates = [];
-    const currentDayOfTheWeek = this.getCurrentDayOfTheWeek() //現在の曜日
-    const dayOfEndOfTheMonth = this.getDayOfEndOfTheMonth(this.getFullYear, this.getMonth) //末の曜日
-    const currentDate = this.getDates(this.getFullYear, this.getMonth) //今月の日数
-    const begin = this.getBeginningOfTheMonthToEndOfTheMonth(this.getFullYear, this.getMonth, currentDayOfTheWeek) //前の余白
-    const end = this.getEndOfTheMonthToBeginningOfTheMonth(this.getFullYear, this.getMonth, dayOfEndOfTheMonth) //後ろの余白
-    for(let i = 1; i <= currentDate; i++){
-      currentDates.push(i)
-    }
-    this.dates = begin.concat(currentDates).concat(end)
+    this.year = this.getCurrentFullYear()
+    this.month = this.getCurrentMonth()
+    this.createCalendar()
   },
   methods:{
-    getDates: function(year, month){
-      return new Date(year, month, 0).getDate()
+    createCalendar: function(){ //watch と createdで呼び出す
+      this.calendar = null; //カレンダーの日にち配列の初期化
+      const currentMonthDates = this.getCurrentMonthDates() //現在の月の日にち全件取得
+      const previousRemainderDates= this.getPreviousRemainder() //前の余白の日付
+      const lastRemainderDates = this.getLastRemainder(currentMonthDates.concat(previousRemainderDates)) //後の余白の日付
+      this.calendar = previousRemainderDates.concat(currentMonthDates).concat(lastRemainderDates)
     },
-    getCurrentDayOfTheWeek: function(){
-      return new Date().getDay()
+    getCurrentFullYear: function(){
+      return new Date().getFullYear()
     },
-    getDayOfEndOfTheMonth: function(year, month){
-      return new Date(year, month, 0).getDay()
+    getCurrentMonth: function(){
+      return new Date().getMonth() + 1
     },
-    getBeginningOfTheMonthToEndOfTheMonth: function(currentYear, currentMonth, currentDayOfTheWeek){
-      const end = [];
-      let endOfTheDate = new Date(currentYear, currentMonth-1, 0).getDate()
-      for(let i=0; i < currentDayOfTheWeek; i++){
-        end.push(endOfTheDate);
-        endOfTheDate -= 1
+    getCurrentMonthDates: function(){
+      const dates = []
+      const currentMonthDate = new Date(this.year, this.month, 0).getDate() //現在の月の日数
+      for(let i = 1; i <= currentMonthDate; i++){
+        dates.push(i)
       }
-      end.sort(function(a,b){
+      return dates
+    },
+    getPreviousRemainder: function(){
+      const dates = []
+      const firstDayOfCurrentMonth = new Date(this.year, this.month - 1, 1).getDay() //現在の月初の曜日位置
+      let endOflastMonth = new Date(this.year, this.month - 1, 0).getDate() //先月末
+      for(let i=0; i < firstDayOfCurrentMonth; i++){
+        dates.push(endOflastMonth)
+        endOflastMonth -= 1;
+      }
+      dates.sort(function(a, b){
         if( a < b ) return -1;
         if( a > b ) return 1;
         return 0;
       })
-      return end
+      return dates
     },
-    getEndOfTheMonthToBeginningOfTheMonth: function(currentYear, currentMonth, dayOfEndOfTheMonth){
-      const begin = [];
-      let beginOfTheDate = new Date(currentYear, currentMonth+1, 1).getDate()//1
-      for(dayOfEndOfTheMonth+1; dayOfEndOfTheMonth < 6; dayOfEndOfTheMonth++){
-        begin.push(beginOfTheDate)
-        beginOfTheDate += 1
+    getLastRemainder: function(arr){
+      const dates = []
+      let count = 42 - arr.length+1
+      for(let i=1; i < count; i++){
+        dates.push(i)
       }
-      return begin
+      return dates
     },
     tableLine1: function(){
-      return this.dates.slice(0, 7)
+      return this.calendar.slice(0, 7)
     },
     tableLine2: function(){
-      return this.dates.slice(7, 14)
+      return this.calendar.slice(7, 14)
     },
     tableLine3: function(){
-      return this.dates.slice(14, 21)
+      return this.calendar.slice(14, 21)
     },
     tableLine4: function(){
-      return this.dates.slice(21, 28)
+      return this.calendar.slice(21, 28)
     },
     tableLine5: function(){
-      return this.dates.slice(28, 35)
+      return this.calendar.slice(28, 35)
     },
     tableLine6: function(){
-      return this.dates.slice(35, 42)
+      return this.calendar.slice(35, 42)
     }
   },
-  computed: {
-    getFullYear: function(){
-      return this.now.getFullYear()
-    },
-    getMonth: function(){
-      const monthArr = [1,2,3,4,5,6,7,8,9,10,11,12]
-      const num = this.now.getMonth()
-      return monthArr[num]
-    },
-    getDate: function(){
-      return this.now.getDate()
-    }
-  }
+  watch: {}
 }
 </script>
 <style lang='scss' scope>
