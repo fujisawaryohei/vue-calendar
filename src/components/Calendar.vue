@@ -1,7 +1,7 @@
 <template>
   <div class="calendar">
     <div class="calendar-header">
-      <p>{{ this.month }}月 {{ this.year }}年</p>
+      <p>{{ numToStringMonth }} {{ this.year }}年</p>
       <button @click="reduceMonth()" class="calendar-left-btn">
         前へ
       </button>
@@ -50,7 +50,7 @@
             {{ item }}
           </td>
         </tr>
-        <tr align='center'>
+        <tr v-if="checkedTableLine()" align='center'>
            <td v-for="(item, index) in tableLine6()" 
               v-bind:key="index">
             {{ item }}
@@ -73,8 +73,9 @@ export default {
     this.year = this.getCurrentFullYear()
     this.month = this.getCurrentMonth()
     this.createCalendar()
+    console.log(this.checkedTableLine())
   },
-  methods:{
+  methods: {
     createCalendar: function(){ //watch と createdで呼び出す
       this.calendar = null; //カレンダーの日にち配列の初期化
       const currentMonthDates = this.getCurrentMonthDates() //現在の月の日にち全件取得
@@ -90,8 +91,8 @@ export default {
     },
     getCurrentMonthDates: function(){
       const dates = []
-      const currentMonthDate = new Date(this.year, this.month, 0).getDate() //現在の月の日数
-      for(let i = 1; i <= currentMonthDate; i++){
+      const currentMonthLastDate = new Date(this.year, this.month, 0).getDate() //現在の月の日数
+      for(let i = 1; i <= currentMonthLastDate; i++){
         dates.push(i)
       }
       return dates
@@ -137,8 +138,15 @@ export default {
     tableLine6: function(){
       return this.calendar.slice(35, 42)
     },
-    checkedMonth: function(){
-      
+    checkedTableLine: function(){
+      let bool //月の末尾が6行目に含まれるかどうか
+      const currentMonthLastDate = new Date(this.year, this.month, 0).getDate()
+      this.tableLine6().forEach(function(el){
+        if(el === currentMonthLastDate){
+          bool = true
+        }
+      })
+      return bool
     },
     addMonth: function(){
       const monthArr = [1,2,3,4,5,6,7,8,9,10,11,12]
@@ -157,6 +165,25 @@ export default {
       } else {
         this.month = monthArr[this.month-1] - 1
       }
+    }
+  },
+  computed: {
+    numToStringMonth: function(){
+      const monthArr = [
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec'
+      ]
+      return monthArr[this.month - 1]
     }
   },
   watch: {
