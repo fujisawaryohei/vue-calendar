@@ -3,9 +3,11 @@
     <div class="calendar-header">
       <p>{{ numToStringMonth }} {{ this.year }}年</p>
       <button @click="reduceMonth()" class="calendar-left-btn">
-        前へ
+        前月へ
       </button>
-      <button @click="addMonth()" class="calendar-right-btn">後へ</button>
+      <button @click="addMonth()" class="calendar-right-btn">
+        前月へ
+      </button>
     </div>
     <table class="calendar-main">
       <thead class='calendar-head-row'>
@@ -76,11 +78,17 @@ export default {
     console.log(this.checkedTableLine())
   },
   methods: {
-    createCalendar: function(){ //watch と createdで呼び出す
-      this.calendar = null; //カレンダーの日にち配列の初期化
-      const currentMonthDates = this.getCurrentMonthDates() //現在の月の日にち全件取得
-      const previousRemainderDates= this.getPreviousRemainder() //前の余白の日付
-      const lastRemainderDates = this.getLastRemainder(currentMonthDates.concat(previousRemainderDates)) //後の余白の日付
+    //カレンダーを描画する関数
+    createCalendar: function(){
+      //描画する日付を配列をこの変数に返す。一旦Nullで初期化
+      this.calendar = null;
+      //現在の月の日付全件取得
+      const currentMonthDates = this.getCurrentMonthDates()
+      //現在の月の前の余白の日付を配列で返す
+      const previousRemainderDates= this.getPreviousRemainder()
+      //現在の月の後ろの余白の日付を配列で返す
+      const lastRemainderDates = this.getLastRemainder(currentMonthDates.concat(previousRemainderDates))
+      //描画する日付の配列をマージして返す
       this.calendar = previousRemainderDates.concat(currentMonthDates).concat(lastRemainderDates)
     },
     getCurrentFullYear: function(){
@@ -91,7 +99,9 @@ export default {
     },
     getCurrentMonthDates: function(){
       const dates = []
-      const currentMonthLastDate = new Date(this.year, this.month, 0).getDate() //現在の月の日数
+      //現在の月の日数を取得
+      const currentMonthLastDate = new Date(this.year, this.month, 0).getDate()
+      //現在の月の日数分インクリメントすることで現在の月の日付を全件配列として返す
       for(let i = 1; i <= currentMonthLastDate; i++){
         dates.push(i)
       }
@@ -99,12 +109,16 @@ export default {
     },
     getPreviousRemainder: function(){
       const dates = []
-      const firstDayOfCurrentMonth = new Date(this.year, this.month - 1, 1).getDay() //現在の月初の曜日位置
-      let endOflastMonth = new Date(this.year, this.month - 1, 0).getDate() //先月末
+      //現在の月初めの日付の曜日位置を取得
+      const firstDayOfCurrentMonth = new Date(this.year, this.month - 1, 1).getDay()
+      //先月末の日付を取得
+      let endOflastMonth = new Date(this.year, this.month - 1, 0).getDate()
+      //先月末の日付から曜日位置分取得することで前の余白で描画する先月分の日付を取得して配列で返す
       for(let i=0; i < firstDayOfCurrentMonth; i++){
         dates.push(endOflastMonth)
         endOflastMonth -= 1;
       }
+      //ソートして日付順に並べる
       dates.sort(function(a, b){
         if( a < b ) return -1;
         if( a > b ) return 1;
@@ -113,6 +127,8 @@ export default {
       return dates
     },
     getLastRemainder: function(arr){
+      //カレンダーは最大縦横6*7なので42からgetCurrentMonthDatesとgetPreviousRemainderで取得した前の余白と
+      //現在の月の日にちをマージした配列の要素分から差し引く事で6行目で描画する来月分の余白を埋める日付を配列で返す事ができる
       const dates = []
       let count = 42 - arr.length+1
       for(let i=1; i < count; i++){
@@ -138,8 +154,9 @@ export default {
     tableLine6: function(){
       return this.calendar.slice(35, 42)
     },
+    //月の末尾が6行目に含まれるかどうか
     checkedTableLine: function(){
-      let bool //月の末尾が6行目に含まれるかどうか
+      let bool
       const currentMonthLastDate = new Date(this.year, this.month, 0).getDate()
       this.tableLine6().forEach(function(el){
         if(el === currentMonthLastDate){
@@ -149,6 +166,8 @@ export default {
       return bool
     },
     addMonth: function(){
+      //クリックしてリアクティブデータを更新する時に12月まで行ったら1月に再度戻るようにする
+      //その際に年度も+1更新
       const monthArr = [1,2,3,4,5,6,7,8,9,10,11,12]
       if(monthArr[this.month-1] === 12){
         this.month = monthArr[0]
@@ -158,6 +177,8 @@ export default {
       }
     },
     reduceMonth: function(){
+      //逆に1月まで戻ったら12月に戻るようにする
+      //その際に年度も-1更新
       const monthArr = [1,2,3,4,5,6,7,8,9,10,11,12]
       if(monthArr[this.month-1] === 1){
         this.month = monthArr[11]
@@ -168,6 +189,7 @@ export default {
     }
   },
   computed: {
+    //月のリアクティブデータはNumber型で持たせているのでそのNumber型を月の名前に変換
     numToStringMonth: function(){
       const monthArr = [
         'Jan',
@@ -187,6 +209,7 @@ export default {
     }
   },
   watch: {
+    //月のりアクティブデータの変更をフックしてカレンダーを再描画する
     month: function(){
       this.createCalendar()
     }
