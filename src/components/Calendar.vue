@@ -3,10 +3,10 @@
     <div class="calendar-header">
       <p>{{ numToStringMonth }} {{ this.year }}年</p>
       <button @click="reduceMonth()" class="calendar-left-btn">
-        前月へ
+        前の月
       </button>
       <button @click="addMonth()" class="calendar-right-btn">
-        前月へ
+        次の月
       </button>
     </div>
     <table class="calendar-main">
@@ -24,38 +24,38 @@
       <tbody class='calendar-body'>
         <tr align='center'>
           <td v-for="(item, index) in tableLine1()" 
-              v-bind:key="index">
-            {{ item }}
+              v-bind:key="index" v-bind:style="{ color: item.color }">
+            {{ item.date }}
           </td>
         </tr>
         <tr align='center'>
            <td v-for="(item, index) in tableLine2()" 
-              v-bind:key="index">
-            {{ item }}
+              v-bind:key="index" v-bind:style="{ color: item.color }">
+            {{ item.date }}
           </td>
         </tr>
         <tr align='center'>
            <td v-for="(item, index) in tableLine3()" 
-              v-bind:key="index">
-            {{ item }}
+              v-bind:key="index" v-bind:style="{ color: item.color }">
+            {{ item.date }}
           </td>
         </tr>
         <tr align='center'>
            <td v-for="(item, index) in tableLine4()" 
-              v-bind:key="index">
-            {{ item }}
+              v-bind:key="index" v-bind:style="{ color: item.color }">
+            {{ item.date }}
           </td>
         </tr>
         <tr align='center'>
            <td v-for="(item, index) in tableLine5()" 
-              v-bind:key="index">
-            {{ item }}
+              v-bind:key="index" v-bind:style="{ color: item.color }">
+            {{ item.date }}
           </td>
         </tr>
         <tr v-if="checkedTableLine()" align='center'>
            <td v-for="(item, index) in tableLine6()" 
-              v-bind:key="index">
-            {{ item }}
+              v-bind:key="index" v-bind:style="{ color: item.color }">
+            {{ item.date }}
           </td>
         </tr>
       </tbody>
@@ -75,7 +75,6 @@ export default {
     this.year = this.getCurrentFullYear()
     this.month = this.getCurrentMonth()
     this.createCalendar()
-    console.log(this.checkedTableLine())
   },
   methods: {
     //カレンダーを描画する関数
@@ -103,7 +102,10 @@ export default {
       const currentMonthLastDate = new Date(this.year, this.month, 0).getDate()
       //現在の月の日数分インクリメントすることで現在の月の日付を全件配列として返す
       for(let i = 1; i <= currentMonthLastDate; i++){
-        dates.push(i)
+        dates.push({
+          date: i,
+          color: '#000'
+        })
       }
       return dates
     },
@@ -111,19 +113,16 @@ export default {
       const dates = []
       //現在の月初めの日付の曜日位置を取得
       const firstDayOfCurrentMonth = new Date(this.year, this.month - 1, 1).getDay()
-      //先月末の日付を取得
-      let endOflastMonth = new Date(this.year, this.month - 1, 0).getDate()
+      //先月末の日付を取得して月初めの日付の曜日位置分ズラスことで前の余白分の日付の最初の部分を取得
+      let endOflastMonth = new Date(this.year, this.month - 1, 0).getDate() - firstDayOfCurrentMonth + 1
       //先月末の日付から曜日位置分取得することで前の余白で描画する先月分の日付を取得して配列で返す
       for(let i=0; i < firstDayOfCurrentMonth; i++){
-        dates.push(endOflastMonth)
-        endOflastMonth -= 1;
+        dates.push({
+          date: endOflastMonth,
+          color: '#e8f3ed'
+        })
+        endOflastMonth += 1;
       }
-      //ソートして日付順に並べる
-      dates.sort(function(a, b){
-        if( a < b ) return -1;
-        if( a > b ) return 1;
-        return 0;
-      })
       return dates
     },
     getLastRemainder: function(arr){
@@ -132,7 +131,10 @@ export default {
       const dates = []
       let count = 42 - arr.length+1
       for(let i=1; i < count; i++){
-        dates.push(i)
+        dates.push({
+          date: i,
+          color: '#e8f3ed'
+        })
       }
       return dates
     },
@@ -159,7 +161,7 @@ export default {
       let bool
       const currentMonthLastDate = new Date(this.year, this.month, 0).getDate()
       this.tableLine6().forEach(function(el){
-        if(el === currentMonthLastDate){
+        if(el.date === currentMonthLastDate){
           bool = true
         }
       })
