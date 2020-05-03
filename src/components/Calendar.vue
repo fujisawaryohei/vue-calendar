@@ -223,7 +223,7 @@ export default {
 <style lang='scss' scope>
   .calendar {
     width: 50%;
-    height: 50%;
+    height: 70%;
     box-sizing: border-box;
     margin: 0 auto;
     background-color: white;

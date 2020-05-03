@@ -13,11 +13,17 @@ export default {
 }
 </script>
 <style lang='scss' scope>
+  html, body {
+    height: 100%;
+  }
   .main {
     width: auto;
-    height: 1200px;
+    height: 100%;
     background-color: rgba(208, 207, 207, 0.4);
     position: relative;
+    background-image: url('/public/background-image.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
   }
   p {
     font-family: 'ヒラギノ丸ゴ ProN','Hiragino Maru Gothic ProN',sans-serif;
