@@ -1,10 +1,10 @@
 <template>
   <div class="calendar">
     <div class="calendar-header">
-      <p>{{ numToStringMonth }} {{ this.year }}年</p>
       <button @click="reduceMonth()" class="calendar-left-btn">
         前の月
       </button>
+      <p>{{ numToStringMonth }} {{ this.year }}年</p>
       <button @click="addMonth()" class="calendar-right-btn">
         次の月
       </button>
@@ -231,21 +231,28 @@ export default {
     border-radius: 1px;
   }
 
+  .calendar-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
   .calendar-header p {
-    text-align: center;
-    padding-top: 10%;
+    margin-top: 7%;
+    margin-left: 6%;
+    margin-right: 6%;
   }
 
   .calendar-left-btn {
     display: block;
-    float: left;
+    margin-top: 9%;
     width: 10%;
     height: 10%;
   }
 
   .calendar-right-btn {
     display: block;
-    float: right;
+    margin-top: 9%;
     width: 10%;
     height: 10%;
   }
