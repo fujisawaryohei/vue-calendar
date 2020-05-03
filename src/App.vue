@@ -12,7 +12,7 @@ export default {
   }
 }
 </script>
-<style lang='scss' scope>
+<style lang='scss'>
   html, body {
     height: 100%;
   }
@@ -35,5 +35,10 @@ export default {
   }
   td {
     vertical-align: middle;
+    transition: 0.5s;
+  }
+  td:hover {
+    cursor: pointer;
+    background-color: #ff8e90;
   }
 </style>

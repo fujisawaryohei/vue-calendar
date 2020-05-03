@@ -229,7 +229,7 @@ export default {
   }
 }
 </script>
-<style lang='scss' scope>
+<style lang='scss'>
   .calendar {
     width: 50%;
     height: 70%;
