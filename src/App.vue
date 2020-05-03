@@ -18,7 +18,6 @@ export default {
     height: 1200px;
     background-color: rgba(208, 207, 207, 0.4);
     position: relative;
-    background-image: url('/public/background-image.jpg');
   }
   p {
     font-family: 'ヒラギノ丸ゴ ProN','Hiragino Maru Gothic ProN',sans-serif;

@@ -1,13 +1,15 @@
 <template>
   <div class="calendar">
     <div class="calendar-header">
-      <button @click="reduceMonth()" class="calendar-left-btn">
-        前の月
-      </button>
+        <font-awesome-icon icon="chevron-left"
+                           @click="reduceMonth()"
+                           class="calendar-left-btn">
+        </font-awesome-icon>
       <p>{{ numToStringMonth }} {{ this.year }}年</p>
-      <button @click="addMonth()" class="calendar-right-btn">
-        次の月
-      </button>
+        <font-awesome-icon icon="chevron-right"
+                           @click="addMonth()" 
+                           class="calendar-right-btn">
+        </font-awesome-icon>
     </div>
     <table class="calendar-main">
       <thead class='calendar-head-row'>
@@ -248,6 +250,7 @@ export default {
     margin-top: 9%;
     width: 10%;
     height: 10%;
+    cursor: pointer;
   }
 
   .calendar-right-btn {
@@ -255,6 +258,7 @@ export default {
     margin-top: 9%;
     width: 10%;
     height: 10%;
+    cursor: pointer;
   }
 
   .calendar-main {
