@@ -27,8 +27,6 @@ module.exports = {
           {
             loader: 'css-loader',
             options: {
-              //cssでのURLの取り込みを禁止する
-              url: false,
               // sourceMapをdevの時のみ有効化
               sourceMap: enabledSourceMap
             }
@@ -38,6 +36,17 @@ module.exports = {
             options: {
               sourceMap: enabledSourceMap
             }
+          }
+        ]
+      },
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: 'file-loader'
+          },
+          {
+            loader: 'url-loader'
           }
         ]
       }
