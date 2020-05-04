@@ -236,10 +236,7 @@ export default {
 }
 </script>
 <style lang='scss' scoped>
-  html, body {
-    height: 100%;
-  }
-.wrapper {
+  .wrapper {
     width: auto;
     height: 100%;
     background-color: rgba(208, 207, 207, 0.4);
