@@ -29,6 +29,7 @@
             <td v-for="(item, index) in tableLine1()" 
                 v-bind:key="index" v-bind:style="{ color: item.color }"
                 v-bind:id="returnDateFormat(item.date)"
+                @click="appendModal()"
             >
             {{ item.date }}
             </td>
@@ -71,16 +72,26 @@
         </tbody>
       </table>
     </div>
+    <div class="modal-fade-layer" v-bind:style="{ visibility: fadeStyle }"></div>
+    <calendar-modal v-bind:modalDisplay="modalDisplay"></calendar-modal>
   </div>
 </template>
 <script>
+import calendarModal from './CalendarModal'
+
 export default {
   data(){
     return {
       year: 0,
       month: 0,
-      calendar: null
+      calendar: null,
+      // モーダル関連のスタイルリアクティブデータ
+      modalDisplay: 'none',
+      fadeStyle: 'hidden'
     }
+  },
+  components: {
+    'calendar-modal': calendarModal
   },
   created(){
     this.year = this.getCurrentFullYear()
@@ -203,8 +214,9 @@ export default {
     returnDateFormat: function(date){
       return `${ this.year }-${ this.month }-${ date }`
     },
-    createModalEvent: function(){
-      this.$emit('appendModal')
+    appendModal: function(){
+      this.modalDisplay = 'block'
+      this.fadeStyle = 'visible'
     }
   },
   computed: {
@@ -239,7 +251,6 @@ export default {
   .wrapper {
     width: auto;
     height: 100%;
-    background-color: rgba(208, 207, 207, 0.4);
     position: relative;
     background-image: url('/public/background-image.jpg');
     background-repeat: no-repeat;
@@ -311,5 +322,16 @@ export default {
 
   .calendar-head-row th {
     opacity: 0.2;
+  }
+
+  .modal-fade-layer {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    opacity: 0.5;
+    z-index: 0.5;
   }
 </style>
