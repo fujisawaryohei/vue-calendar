@@ -29,8 +29,7 @@
             <td v-for="(item, index) in tableLine1()" 
                 v-bind:key="index" v-bind:style="{ color: item.color }"
                 v-bind:id="returnDateFormat(item.date)"
-                @click="appendModal()"
-            >
+                @click="appendModal($event)">
             {{ item.date }}
             </td>
           </tr>
@@ -73,7 +72,7 @@
       </table>
     </div>
     <div class="modal-fade-layer" v-bind:style="{ visibility: fadeStyle }"></div>
-    <calendar-modal v-bind:modalDisplay="modalDisplay"></calendar-modal>
+    <calendar-modal v-bind:modalDisplay="modalDisplay" v-bind:dateId="dateId"></calendar-modal>
   </div>
 </template>
 <script>
@@ -87,7 +86,9 @@ export default {
       calendar: null,
       // モーダル関連のスタイルリアクティブデータ
       modalDisplay: 'none',
-      fadeStyle: 'hidden'
+      fadeStyle: 'hidden',
+      // モーダルに渡す日にち
+      dateId: null
     }
   },
   components: {
@@ -214,9 +215,10 @@ export default {
     returnDateFormat: function(date){
       return `${ this.year }-${ this.month }-${ date }`
     },
-    appendModal: function(){
+    appendModal: function(event){
       this.modalDisplay = 'block'
       this.fadeStyle = 'visible'
+      this.dateId = event.target.id
     }
   },
   computed: {
@@ -256,10 +258,6 @@ export default {
     background-repeat: no-repeat;
     background-size: cover;
   }
-  p {
-    font-family: 'ヒラギノ丸ゴ ProN','Hiragino Maru Gothic ProN',sans-serif;
-    font-size: 2.0rem;
-  }
   th, td {
     font-family: 'Courier New', Courier, monospace;
     font-size: 1.7rem;
@@ -276,7 +274,6 @@ export default {
   .calendar {
     width: 50%;
     height: 70%;
-    box-sizing: border-box;
     margin: 0 auto;
     background-color: white;
     box-shadow: 1px 1px 1px 1px rgba(211, 206, 206, 0.4);

@@ -1,17 +1,18 @@
 <template>
   <div class="calendar-modal" v-bind:style="{ display: modalDisplay }">
-    <div class="wrapper">
-      <div class="modal-header">
-      </div>
-      <div class="modal-main">
-      </div>
+    <div class="modal-header">
+      <font-awesome-icon icon='times' class='close-btn clearfix'></font-awesome-icon>
+    </div>
+    <h2 class="modal-title">{{ dateId }}のスケジュール</h2>
+    <div class="modal-main">
     </div>
   </div>
 </template>
 <script>
 export default {
   props: {
-    modalDisplay: String
+    modalDisplay: String,
+    dateId: String
   }
 }
 </script>
@@ -25,5 +26,22 @@ export default {
     height: 70%;
     z-index: 1.0;
     border-radius: 3%;
+  }
+
+  .modal-header {
+    height: 10%;
+    width: auto;
+  }
+
+  .modal-header .close-btn {
+    float: right;
+    width: 7%;
+    height: 60%;
+    opacity: 0.6;
+  }
+
+  .modal-title {
+    font-size: 2.0em;
+    text-align: center;
   }
 </style>

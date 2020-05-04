@@ -11,7 +11,22 @@ export default {
 }
 </script>
 <style lang='scss'>
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
   html, body {
     height: 100%;
+  }
+
+  p {
+    font-family: 'ヒラギノ丸ゴ ProN','Hiragino Maru Gothic ProN',sans-serif;
+    font-size: 2.0rem;
+  }
+  
+  .clearfix::after {
+    content: '';
+    clear: both;
+    display: block;
   }
 </style>
