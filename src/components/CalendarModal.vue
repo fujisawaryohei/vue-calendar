@@ -1,5 +1,5 @@
 <template>
-  <div class="calendar-modal">
+  <div class="calendar-modal" v-bind:style="{ display: modalStyle.display }">
     <div class="wrapper">
       <div class="modal-header">
       </div>
@@ -10,12 +10,22 @@
 </template>
 <script>
 export default {
-  
+  data(){
+    return {
+      modalStyle: {
+        display: 'none'
+      }
+    }
+  }
 }
 </script>
 <style lang='scss' scoped>
   .calendar-modal {
-    width: 300px;
-    height: 300px;
+    position: absolute;
+    top: 20%;
+    left: 15%;
+    background-color: white;
+    width: 70%;
+    height: 70%;
   }
 </style>

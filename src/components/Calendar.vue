@@ -27,7 +27,8 @@
         <tr align='center'>
           <td v-for="(item, index) in tableLine1()" 
               v-bind:key="index" v-bind:style="{ color: item.color }"
-              v-bind:id="returnDateFormat(item.date)">
+              v-bind:id="returnDateFormat(item.date)"
+              >
             {{ item.date }}
           </td>
         </tr>
@@ -199,6 +200,9 @@ export default {
     },
     returnDateFormat: function(date){
       return `${ this.year }-${ this.month }-${ date }`
+    },
+    createModalEvent: function(){
+      this.$emit('appendModal')
     }
   },
   computed: {
