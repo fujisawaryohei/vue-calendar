@@ -1,74 +1,76 @@
 <template>
-  <div class="calendar">
-    <div class="calendar-header">
+  <div class="wrapper">
+    <div class="calendar">
+      <div class="calendar-header">
         <font-awesome-icon icon="chevron-left"
                            @click="reduceMonth()"
                            class="calendar-left-btn">
         </font-awesome-icon>
-      <p>{{ numToStringMonth }} {{ this.year }}年</p>
+        <p>{{ numToStringMonth }} {{ this.year }}年</p>
         <font-awesome-icon icon="chevron-right"
                            @click="addMonth()" 
                            class="calendar-right-btn">
         </font-awesome-icon>
+      </div>
+      <table class="calendar-main">
+        <thead class='calendar-head-row'>
+          <tr align='center'>
+            <th>S</th>
+            <th>M</th>
+            <th>T</th>
+            <th>W</th>
+            <th>T</th>
+            <th>F</th>
+            <th>S</th>
+          </tr>
+        </thead>
+        <tbody class='calendar-body'>
+          <tr align='center'>
+            <td v-for="(item, index) in tableLine1()" 
+                v-bind:key="index" v-bind:style="{ color: item.color }"
+                v-bind:id="returnDateFormat(item.date)"
+            >
+            {{ item.date }}
+            </td>
+          </tr>
+          <tr align='center'>
+            <td v-for="(item, index) in tableLine2()" 
+                v-bind:key="index" v-bind:style="{ color: item.color }" 
+                v-bind:id="returnDateFormat(item.date)">
+              {{ item.date }}
+            </td>
+          </tr>
+          <tr align='center'>
+            <td v-for="(item, index) in tableLine3()" 
+                v-bind:key="index" v-bind:style="{ color: item.color }" 
+                v-bind:id="returnDateFormat(item.date)">
+              {{ item.date }}
+            </td>
+          </tr>
+          <tr align='center'>
+            <td v-for="(item, index) in tableLine4()" 
+                v-bind:key="index" v-bind:style="{ color: item.color }" 
+                v-bind:id="returnDateFormat(item.date)">
+              {{ item.date }}
+            </td>
+          </tr>
+          <tr align='center'>
+            <td v-for="(item, index) in tableLine5()" 
+                v-bind:key="index" v-bind:style="{ color: item.color }" 
+                v-bind:id="returnDateFormat(item.date)">
+              {{ item.date }}
+            </td>
+          </tr>
+          <tr v-if="checkedTableLine()" align='center'>
+            <td v-for="(item, index) in tableLine6()" 
+                v-bind:key="index" v-bind:style="{ color: item.color }"
+                v-bind:id="returnDateFormat(item.date)">
+              {{ item.date }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <table class="calendar-main">
-      <thead class='calendar-head-row'>
-        <tr align='center'>
-          <th>S</th>
-          <th>M</th>
-          <th>T</th>
-          <th>W</th>
-          <th>T</th>
-          <th>F</th>
-          <th>S</th>
-        </tr>
-      </thead>
-      <tbody class='calendar-body'>
-        <tr align='center'>
-          <td v-for="(item, index) in tableLine1()" 
-              v-bind:key="index" v-bind:style="{ color: item.color }"
-              v-bind:id="returnDateFormat(item.date)"
-              >
-            {{ item.date }}
-          </td>
-        </tr>
-        <tr align='center'>
-           <td v-for="(item, index) in tableLine2()" 
-              v-bind:key="index" v-bind:style="{ color: item.color }" 
-              v-bind:id="returnDateFormat(item.date)">
-            {{ item.date }}
-          </td>
-        </tr>
-        <tr align='center'>
-           <td v-for="(item, index) in tableLine3()" 
-              v-bind:key="index" v-bind:style="{ color: item.color }" 
-              v-bind:id="returnDateFormat(item.date)">
-            {{ item.date }}
-          </td>
-        </tr>
-        <tr align='center'>
-           <td v-for="(item, index) in tableLine4()" 
-              v-bind:key="index" v-bind:style="{ color: item.color }" 
-              v-bind:id="returnDateFormat(item.date)">
-            {{ item.date }}
-          </td>
-        </tr>
-        <tr align='center'>
-           <td v-for="(item, index) in tableLine5()" 
-              v-bind:key="index" v-bind:style="{ color: item.color }" 
-              v-bind:id="returnDateFormat(item.date)">
-            {{ item.date }}
-          </td>
-        </tr>
-        <tr v-if="checkedTableLine()" align='center'>
-           <td v-for="(item, index) in tableLine6()" 
-              v-bind:key="index" v-bind:style="{ color: item.color }"
-              v-bind:id="returnDateFormat(item.date)">
-            {{ item.date }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
   </div>
 </template>
 <script>
@@ -233,7 +235,36 @@ export default {
   }
 }
 </script>
-<style lang='scss'>
+<style lang='scss' scoped>
+  html, body {
+    height: 100%;
+  }
+.wrapper {
+    width: auto;
+    height: 100%;
+    background-color: rgba(208, 207, 207, 0.4);
+    position: relative;
+    background-image: url('/public/background-image.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  p {
+    font-family: 'ヒラギノ丸ゴ ProN','Hiragino Maru Gothic ProN',sans-serif;
+    font-size: 2.0rem;
+  }
+  th, td {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.7rem;
+  }
+  td {
+    vertical-align: middle;
+    transition: 0.5s;
+  }
+  td:hover {
+    cursor: pointer;
+    background-color: #ff8e90;
+  }
+
   .calendar {
     width: 50%;
     height: 70%;
@@ -261,16 +292,16 @@ export default {
   .calendar-left-btn {
     display: block;
     margin-top: 9%;
-    width: 10%;
-    height: 10%;
+    width: 2%;
+    height: 2%;
     cursor: pointer;
   }
 
   .calendar-right-btn {
     display: block;
     margin-top: 9%;
-    width: 10%;
-    height: 10%;
+    width: 2%;
+    height: 2%;
     cursor: pointer;
   }
 

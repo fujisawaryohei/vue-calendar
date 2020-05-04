@@ -1,17 +1,14 @@
 <template>
   <div class="main">
     <calendar></calendar>
-    <calendar-modal></calendar-modal>
   </div>
 </template>
 <script>
 import Calendar from './components/Calendar'
-import CalendarModal from './components/CalendarModal'
 
 export default {
   components: {
-    'calendar': Calendar,
-    'calendar-modal': CalendarModal
+    'calendar': Calendar
   }
 }
 </script>
