@@ -1,12 +1,14 @@
 <template>
-  <div class="calendar-modal" v-bind:style="{ display: modalDisplay }">
+<transition>
+  <div class="calendar-modal" v-bind:style="{ visibility: modalDisplay }">
     <div class="modal-header">
       <font-awesome-icon icon='times' class='close-btn clearfix' @click="closeModal"></font-awesome-icon>
     </div>
-    <h2 class="modal-title">{{ dateId }}のスケジュール</h2>
+    <h2 class="modal-title">{{ dateId }}</h2>
     <div class="modal-main">
     </div>
   </div>
+</transition>
 </template>
 <script>
 export default {
@@ -40,14 +42,33 @@ export default {
 
   .modal-header .close-btn {
     float: right;
-    width: 7%;
+    margin-top: 2%;
+    margin-right: 2%;
+    width: 5%;
     height: 60%;
     opacity: 0.6;
     cursor: pointer;
   }
 
   .modal-title {
-    font-size: 2.0em;
+    font-size: 1.5em;
     text-align: center;
+  }
+
+  //モーダルアニメーション
+  .v-enter-active, .v-leave-active {
+    transition: opacity 1s;
+  }
+  .v-enter {
+    opacity: 0;
+  }
+  .v-enter-to {
+    opacity: 1;
+  }
+  .v-leave {
+    opacity: 1;
+  }
+  .v-leave-to {
+    opacity: 0;
   }
 </style>

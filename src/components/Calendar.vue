@@ -99,7 +99,7 @@ export default {
       month: 0,
       calendar: null,
       // モーダル関連のスタイルリアクティブデータ
-      modalDisplay: 'none',
+      modalDisplay: 'hidden',
       fadeStyle: 'hidden',
       // モーダルに渡す日にち
       dateId: null
@@ -230,12 +230,12 @@ export default {
       return `${ this.year }-${ this.month }-${ date }`
     },
     appendModal: function(event){
-      this.modalDisplay = 'block'
+      this.modalDisplay = 'visible'
       this.fadeStyle = 'visible'
       this.dateId = event.target.id
     },
     closeModal(){
-      this.modalDisplay = "none"
+      this.modalDisplay = "hidden"
       this.fadeStyle = 'hidden'
     }
   },
