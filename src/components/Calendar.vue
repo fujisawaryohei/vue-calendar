@@ -27,7 +27,8 @@
         <tbody class='calendar-body'>
           <tr align='center'>
             <td v-for="(item, index) in tableLine1()" 
-                v-bind:key="index" v-bind:style="{ color: item.color }"
+                v-bind:key="index"
+                v-bind:style="{ color: item.color }"
                 v-bind:id="returnDateFormat(item.date)"
                 @click="appendModal($event)">
             {{ item.date }}
@@ -35,36 +36,46 @@
           </tr>
           <tr align='center'>
             <td v-for="(item, index) in tableLine2()" 
-                v-bind:key="index" v-bind:style="{ color: item.color }" 
-                v-bind:id="returnDateFormat(item.date)">
+                v-bind:key="index"
+                v-bind:style="{ color: item.color }" 
+                v-bind:id="returnDateFormat(item.date)"
+                @click="appendModal($event)">
               {{ item.date }}
             </td>
           </tr>
           <tr align='center'>
             <td v-for="(item, index) in tableLine3()" 
-                v-bind:key="index" v-bind:style="{ color: item.color }" 
-                v-bind:id="returnDateFormat(item.date)">
+                v-bind:key="index"
+                v-bind:style="{ color: item.color }" 
+                v-bind:id="returnDateFormat(item.date)"
+                @click="appendModal($event)">
               {{ item.date }}
             </td>
           </tr>
           <tr align='center'>
             <td v-for="(item, index) in tableLine4()" 
-                v-bind:key="index" v-bind:style="{ color: item.color }" 
-                v-bind:id="returnDateFormat(item.date)">
+                v-bind:key="index"
+                v-bind:style="{ color: item.color }" 
+                v-bind:id="returnDateFormat(item.date)"
+                @click="appendModal($event)">
               {{ item.date }}
             </td>
           </tr>
           <tr align='center'>
             <td v-for="(item, index) in tableLine5()" 
-                v-bind:key="index" v-bind:style="{ color: item.color }" 
-                v-bind:id="returnDateFormat(item.date)">
+                v-bind:key="index"
+                v-bind:style="{ color: item.color }" 
+                v-bind:id="returnDateFormat(item.date)"
+                @click="appendModal($event)">
               {{ item.date }}
             </td>
           </tr>
           <tr v-if="checkedTableLine()" align='center'>
             <td v-for="(item, index) in tableLine6()" 
-                v-bind:key="index" v-bind:style="{ color: item.color }"
-                v-bind:id="returnDateFormat(item.date)">
+                v-bind:key="index"
+                v-bind:style="{ color: item.color }"
+                v-bind:id="returnDateFormat(item.date)"
+                @click="appendModal($event)">
               {{ item.date }}
             </td>
           </tr>
@@ -72,7 +83,10 @@
       </table>
     </div>
     <div class="modal-fade-layer" v-bind:style="{ visibility: fadeStyle }"></div>
-    <calendar-modal v-bind:modalDisplay="modalDisplay" v-bind:dateId="dateId"></calendar-modal>
+    <calendar-modal v-bind:modalDisplay="modalDisplay" 
+                    v-bind:dateId="dateId"
+                    @closeModal="closeModal()">
+    </calendar-modal>
   </div>
 </template>
 <script>
@@ -219,6 +233,10 @@ export default {
       this.modalDisplay = 'block'
       this.fadeStyle = 'visible'
       this.dateId = event.target.id
+    },
+    closeModal(){
+      this.modalDisplay = "none"
+      this.fadeStyle = 'hidden'
     }
   },
   computed: {
