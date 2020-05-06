@@ -29,7 +29,7 @@
             <td v-for="(item, index) in tableLine1()" 
                 v-bind:key="index"
                 v-bind:style="{ color: item.color }"
-                v-bind:id="returnDateFormat(item.date)"
+                v-bind:id="item.dateId"
                 @click="appendModal($event)">
             {{ item.date }}
             </td>
@@ -38,7 +38,7 @@
             <td v-for="(item, index) in tableLine2()" 
                 v-bind:key="index"
                 v-bind:style="{ color: item.color }" 
-                v-bind:id="returnDateFormat(item.date)"
+                v-bind:id="item.dateId"
                 @click="appendModal($event)">
               {{ item.date }}
             </td>
@@ -47,7 +47,7 @@
             <td v-for="(item, index) in tableLine3()" 
                 v-bind:key="index"
                 v-bind:style="{ color: item.color }" 
-                v-bind:id="returnDateFormat(item.date)"
+                v-bind:id="item.dateId"
                 @click="appendModal($event)">
               {{ item.date }}
             </td>
@@ -56,7 +56,7 @@
             <td v-for="(item, index) in tableLine4()" 
                 v-bind:key="index"
                 v-bind:style="{ color: item.color }" 
-                v-bind:id="returnDateFormat(item.date)"
+                v-bind:id="item.dateId"
                 @click="appendModal($event)">
               {{ item.date }}
             </td>
@@ -65,7 +65,7 @@
             <td v-for="(item, index) in tableLine5()" 
                 v-bind:key="index"
                 v-bind:style="{ color: item.color }" 
-                v-bind:id="returnDateFormat(item.date)"
+                v-bind:id="item.dateId"
                 @click="appendModal($event)">
               {{ item.date }}
             </td>
@@ -74,7 +74,7 @@
             <td v-for="(item, index) in tableLine6()" 
                 v-bind:key="index"
                 v-bind:style="{ color: item.color }"
-                v-bind:id="returnDateFormat(item.date)"
+                v-bind:id="item.dateId"
                 @click="appendModal($event)">
               {{ item.date }}
             </td>
@@ -140,6 +140,7 @@ export default {
       //現在の月の日数分インクリメントすることで現在の月の日付を全件配列として返す
       for(let i = 1; i <= currentMonthLastDate; i++){
         dates.push({
+          dateId: `${ this.year }-${ this.month }-${ i }`,
           date: i,
           color: '#000'
         })
@@ -155,6 +156,7 @@ export default {
       //先月末の日付から曜日位置分取得することで前の余白で描画する先月分の日付を取得して配列で返す
       for(let i=0; i < firstDayOfCurrentMonth; i++){
         dates.push({
+          dateId: `${ this.year }-${ this.month - 1 }-${ endOflastMonth }`,
           date: endOflastMonth,
           color: '#e8f3ed'
         })
@@ -169,6 +171,7 @@ export default {
       let count = 42 - arr.length+1
       for(let i=1; i < count; i++){
         dates.push({
+          dateId: `${ this.year }-${ this.month + 1 }-${ i }`,
           date: i,
           color: '#e8f3ed'
         })
@@ -225,9 +228,6 @@ export default {
       } else {
         this.month = monthArr[this.month-1] - 1
       }
-    },
-    returnDateFormat: function(date){
-      return `${ this.year }-${ this.month }-${ date }`
     },
     appendModal: function(event){
       this.modalDisplay = 'visible'

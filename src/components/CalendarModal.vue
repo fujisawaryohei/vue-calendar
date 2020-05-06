@@ -1,12 +1,12 @@
 <template>
 <transition>
   <div class="calendar-modal" v-bind:style="{ visibility: modalDisplay }">
-    <div class="modal-header">
+    <header class="modal-header">
       <font-awesome-icon icon='times' class='close-btn clearfix' @click="closeModal"></font-awesome-icon>
-    </div>
+    </header>
     <h2 class="modal-title">{{ dateId }}</h2>
-    <div class="modal-main">
-    </div>
+    <main class="modal-main">
+    </main>
   </div>
 </transition>
 </template>
