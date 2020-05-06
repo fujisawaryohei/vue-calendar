@@ -85,6 +85,7 @@
     <div class="modal-fade-layer" v-bind:style="{ visibility: fadeStyle }"></div>
     <calendar-modal v-bind:modalDisplay="modalDisplay" 
                     v-bind:dateId="dateId"
+                    v-bind:toDo="this.filterTodo"
                     @closeModal="closeModal()">
     </calendar-modal>
   </div>
@@ -102,7 +103,11 @@ export default {
       modalDisplay: 'hidden',
       fadeStyle: 'hidden',
       // モーダルに渡す日にち
-      dateId: null
+      dateId: null,
+      // 全TODOデータ
+      todo: [],
+      // モーダルにわたすTODOデータ
+      filterTodo: []
     }
   },
   components: {
@@ -233,10 +238,15 @@ export default {
       this.modalDisplay = 'visible'
       this.fadeStyle = 'visible'
       this.dateId = event.target.id
+      this.filterTodo = this.todo.filter((el)=>{
+        return el.date === event.target.id
+      })
     },
-    closeModal(){
+    closeModal: function(){
       this.modalDisplay = "hidden"
       this.fadeStyle = 'hidden'
+      //閉じる時に初期化
+      this.filterTodo = []
     }
   },
   computed: {

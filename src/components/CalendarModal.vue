@@ -7,6 +7,11 @@
     <h2 class="modal-title">{{ dateId }}</h2>
     <main class="modal-main">
       <h2 class="modal-main-title">Todo</h2>
+      <ul class="todo-list">
+        <li v-for="(item, index) in toDo" :key="index">
+          {{ item.id }}. {{ item.todo }}
+        </li>
+      </ul>
     </main>
     <input type="text" class="modal-form">
   </div>
@@ -16,7 +21,8 @@
 export default {
   props: {
     modalDisplay: String,
-    dateId: String
+    dateId: String,
+    toDo: Array
   },
   methods: {
     closeModal: function(){
@@ -61,6 +67,16 @@ export default {
     font-size: 2.0rem;
     margin-top: 2.5%;
     margin-left: 10%;
+  }
+
+  .todo-list {
+    text-align: center;
+    margin-top: 3%;
+  }
+
+  .todo-list li {
+    padding-bottom: 4%;
+    font-size: 1.5rem;
   }
 
   .modal-form {
