@@ -6,7 +6,9 @@
     </header>
     <h2 class="modal-title">{{ dateId }}</h2>
     <main class="modal-main">
+      <h2 class="modal-main-title">Todo</h2>
     </main>
+    <input type="text" class="modal-form">
   </div>
 </transition>
 </template>
@@ -53,6 +55,20 @@ export default {
   .modal-title {
     font-size: 1.5em;
     text-align: center;
+  }
+
+  .modal-main-title {
+    font-size: 2.0rem;
+    margin-top: 2.5%;
+    margin-left: 10%;
+  }
+
+  .modal-form {
+    position: absolute;
+    top: 90%;
+    margin-left: 10%;
+    height: 5%;
+    width: 80%;
   }
 
   //モーダルアニメーション
