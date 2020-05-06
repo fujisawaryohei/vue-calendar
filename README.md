@@ -1,11 +1,11 @@
 # vue-calendar
 ![TOP画面](./app-image.png)
 
-### package install
+## package install
 `yarn install`
 
-### Webpack build command
+## Webpack build command
 `yarn build`
 
-### Webpack-dev-server on
+## Webpack-dev-server on
 `yarn dev-server`
