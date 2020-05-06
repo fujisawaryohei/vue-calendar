@@ -86,7 +86,8 @@
     <calendar-modal v-bind:modalDisplay="modalDisplay" 
                     v-bind:dateId="dateId"
                     v-bind:toDo="this.filterTodo"
-                    @closeModal="closeModal()">
+                    @closeModal="closeModal()"
+                    @addTodo="addTodo($event)">
     </calendar-modal>
   </div>
 </template>
@@ -247,6 +248,9 @@ export default {
       this.fadeStyle = 'hidden'
       //閉じる時に初期化
       this.filterTodo = []
+    },
+    addTodo: function($event){
+      this.todo.push($event)
     }
   },
   computed: {
@@ -273,6 +277,11 @@ export default {
     //月のりアクティブデータの変更をフックしてカレンダーを再描画する
     month: function(){
       this.createCalendar()
+    },
+    todo: function(newv){
+      this.filterTodo = this.todo.filter((el)=>{
+        return el.date === newv[newv.length-1].date
+      })
     }
   }
 }

@@ -9,11 +9,12 @@
       <h2 class="modal-main-title">Todo</h2>
       <ul class="todo-list">
         <li v-for="(item, index) in toDo" :key="index">
-          {{ item.id }}. {{ item.todo }}
+          ・ {{ item.todo }}
         </li>
       </ul>
     </main>
     <input type="text" class="modal-form">
+    <button class="modal-form-btn" @click="addTodo()">追加する</button>
   </div>
 </transition>
 </template>
@@ -24,9 +25,24 @@ export default {
     dateId: String,
     toDo: Array
   },
+  data(){
+    return {
+      id: 1
+    }
+  },
   methods: {
     closeModal: function(){
       this.$emit('closeModal')
+    },
+    addTodo: function(){
+      const todoObj = {
+        id: this.id,
+        date: this.dateId,
+        todo: document.querySelector('input.modal-form').value
+      }
+      this.id += 1
+      document.querySelector('input.modal-form').value = ''
+      this.$emit('addTodo', todoObj)
     }
   }
 }
@@ -82,9 +98,27 @@ export default {
   .modal-form {
     position: absolute;
     top: 90%;
-    margin-left: 10%;
+    margin-left: 15%;
     height: 5%;
-    width: 80%;
+    width: 60%;
+  }
+
+  .modal-form-btn {
+    position: absolute;
+    top: 90%;
+    left: 85%;
+    height: 5%;
+    width: 10%;
+    background-color:rgb(101, 200, 242);
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    border-style: none;
+    cursor: pointer;
+  }
+
+  .modal-form-btn:hover {
+    background-color:rgb(118, 205, 242);
   }
 
   //モーダルアニメーション
