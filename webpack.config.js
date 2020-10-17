@@ -1,6 +1,6 @@
-const path = require('path');
+const path = require('path')
 const outputPath = path.resolve(__dirname, 'dist')
-const { VueLoaderPlugin } = require('vue-loader');
+const { VueLoaderPlugin } = require('vue-loader')
 const MODE = 'development'
 const enabledSourceMap = MODE === 'development'
 
@@ -55,14 +55,12 @@ module.exports = {
   resolve: {
     extensions: ['.vue', '.js', 'json'],
     alias: {
-      'vue$': 'vue/dist/vue.esm.js'
+      vue$: 'vue/dist/vue.esm.js'
     }
   },
-  plugins: [
-    new VueLoaderPlugin()
-  ],
+  plugins: [new VueLoaderPlugin()],
   devServer: {
     contentBase: outputPath,
-    port: 8081  
+    port: 8081
   }
 }
