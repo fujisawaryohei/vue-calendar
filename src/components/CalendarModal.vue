@@ -12,7 +12,7 @@
       <main class="modal-main">
         <h2 class="modal-main-title">Todo</h2>
         <ul class="todo-list">
-          <li v-for="(item, index) in toDo" :key="index">・ {{ item.todo }}</li>
+          <li v-for="(item, index) in toDo" :key="index">・ {{ item.content }}</li>
         </ul>
       </main>
       <input type="text" class="modal-form" />
@@ -27,24 +27,19 @@ export default {
     dateId: String,
     toDo: Array
   },
-  data() {
-    return {
-      id: 1
-    }
-  },
   methods: {
     closeModal() {
       this.$emit('closeModal')
     },
-    addTodo() {
+    async addTodo() {
       const todoObj = {
-        id: this.id,
-        date: this.dateId,
-        todo: document.querySelector('input.modal-form').value
+        timestamp: this.dateId,
+        content: document.querySelector('input.modal-form').value
       }
-      this.id += 1
-      document.querySelector('input.modal-form').value = ''
-      this.$emit('addTodo', todoObj)
+      this.axios.post('/dev/todo', todoObj).then(() => {
+        document.querySelector('input.modal-form').value = ''
+        this.$emit('addTodo', todoObj)
+      })
     }
   }
 }

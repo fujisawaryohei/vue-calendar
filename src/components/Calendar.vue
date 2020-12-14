@@ -102,7 +102,7 @@
     <calendar-modal
       :modal-display="modalDisplay"
       :date-id="dateId"
-      :to-do="this.filterTodo"
+      :to-do="this.todo"
       @closeModal="closeModal()"
       @addTodo="addTodo($event)"
     >
@@ -127,9 +127,7 @@ export default {
       // モーダルに渡す日にち
       dateId: null,
       // 全TODOデータ
-      todo: [],
-      // モーダルにわたすTODOデータ
-      filterTodo: []
+      todo: []
     }
   },
   computed: {
@@ -156,11 +154,6 @@ export default {
     // 月のりアクティブデータの変更をフックしてカレンダーを再描画する
     month() {
       this.createCalendar()
-    },
-    todo(newv) {
-      this.filterTodo = this.todo.filter((el) => {
-        return el.date === newv[newv.length - 1].date
-      })
     }
   },
   created() {
@@ -295,19 +288,19 @@ export default {
         this.month = monthArr[this.month - 1] - 1
       }
     },
-    appendModal(event) {
+    async appendModal(event) {
       this.modalDisplay = 'visible'
       this.fadeStyle = 'visible'
       this.dateId = event.target.id
-      this.filterTodo = this.todo.filter((el) => {
-        return el.date === event.target.id
+      this.axios.get(`/dev/todo?timestamp=${this.dateId}`).then((res) => {
+        this.todo = res.data
       })
     },
     closeModal() {
       this.modalDisplay = 'hidden'
       this.fadeStyle = 'hidden'
       // 閉じる時に初期化
-      this.filterTodo = []
+      this.todo = []
     },
     addTodo($event) {
       this.todo.push($event)
