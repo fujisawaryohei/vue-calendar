@@ -6,7 +6,7 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import App from './App'
 
-axios.defaults.baseURL = 'https://ky1xvy1aa1.execute-api.ap-northeast-1.amazonaws.com'
+axios.defaults.baseURL = 'バックエンドのドメイン'
 
 Vue.use(VueAxios, axios)
 
